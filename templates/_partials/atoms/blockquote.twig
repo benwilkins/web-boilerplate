@@ -1,0 +1,20 @@
+{% set quoteParams = {
+  alignment: 'right',
+  citation: null,
+  class: null,
+  text: ''
+}|merge(params|default({})) %}
+
+<blockquote class="quote{% if quoteParams.alignment != 'center' %} -{{ quoteParams.alignment }}{% endif %}">
+  <p>
+    {{ quoteParams.text }}
+  </p>
+
+  {% if quoteParams.citation %}
+    <footer>
+      <cite>
+        — {{ quoteParams.citation }}
+      </cite>
+    </footer>
+  {% endif %}
+</blockquote>

@@ -1,0 +1,73 @@
+.burger {
+  background: none;
+  border: none;
+  outline: none;
+  position: absolute;
+  right: 0;
+  top: 25px;
+  @include clearfix;
+
+  &:active {
+    background-color: transparent;
+  }
+
+  @include breakpoint(setting('breakpoint.large')) {
+    display: none;
+  }
+}
+
+.burger__icon {
+  display: block;
+  float: right;
+  margin: 0 auto;
+  width: auto;
+}
+
+.burger__icon__bar {
+  background-color: white;
+  display: block;
+  height: 3px;
+  margin: 5px auto;
+  transition: background-color .25s, margin .25s ease, transform .5s ease;
+  width: 25px;
+
+  .burger:hover & {
+    background-color: color(green, xlight);
+  }
+
+  .burger.is-active &.-top {
+    -webkit-transform: translateY(8px) rotateZ(45deg);
+    -moz-transform: translateY(8px) rotateZ(45deg);
+    -ms-transform: translateY(8px) rotateZ(45deg);
+    -o-transform: translateY(8px) rotateZ(45deg);
+    transform: translateY(8px) rotateZ(45deg);
+  }
+
+  .burger.is-active &.-middle {
+    width: 0;
+  }
+
+  .burger.is-active &.-bottom {
+    -webkit-transform: translateY(-8px) rotateZ(-45deg);
+    -moz-transform: translateY(-8px) rotateZ(-45deg);
+    -ms-transform: translateY(-8px) rotateZ(-45deg);
+    -o-transform: translateY(-8px) rotateZ(-45deg);
+    transform: translateY(-8px) rotateZ(-45deg);
+  }
+}
+
+.burger__text {
+  color: white;
+  display: block;
+  float: left;
+  font-size: .75em;
+  letter-spacing: 2px;
+  margin-right: .75em;
+  padding: .5em 0;
+  text-transform: uppercase;
+  transition: color .25s;
+
+  .burger:hover & {
+    color: color(green, xlight);
+  }
+}

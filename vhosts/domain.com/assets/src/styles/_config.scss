@@ -1,0 +1,173 @@
+/// ----------------------------------------------------------------------------
+/// Variables
+///
+/// Define all of the site's single variables here.
+/// ----------------------------------------------------------------------------
+$base-font-size: 1em;
+$base-line-height: 1.4;
+
+/// ----------------------------------------------------------------------------
+/// Breakpoint Settings
+///
+/// If you're using [Breakpoint](https://github.com/at-import/breakpoint), you
+/// can define its settings here.
+/// ----------------------------------------------------------------------------
+// $breakpoint-no-queries: false; // true to replace `@media` with `.no-mq` styles
+// $breakpoint-no-query-fallbacks: false; // true to add `.no-mq` styles
+// $no-query: 'no-query' '.no-mq';
+
+/// ----------------------------------------------------------------------------
+/// Layouts
+///
+/// Susy can be used to create multiple grid layouts. The `$default-layout`
+/// layout is mapped to the `$susy` variable, which is the required namespace
+/// within Susy. View
+/// [Susy's documentation](http://susydocs.oddbird.net/en/latest/) to learn how
+/// to call other layouts and for accepted key/value pairs.
+///
+/// If you have no use for grids or Susy, you may ignore these settings.
+/// ----------------------------------------------------------------------------
+$default-layout: ();
+
+$susy: $default-layout;
+
+/// ----------------------------------------------------------------------------
+/// Neat Overrides
+///
+/// If you've choosen to use Neat in favor of Susy, you may override its default
+/// variables here. Note that with Neat, you can only have a single layout. View
+/// [Neat's documentation](http://thoughtbot.github.io/neat-docs/latest/) to
+/// learn more.
+///
+/// Ignore these settings if you're not using Neat.
+/// ----------------------------------------------------------------------------
+// $column: 100px;
+// $gutter: 10px;
+// $grid-columns: 12px;
+// $max-width: 1200px;
+
+/// ----------------------------------------------------------------------------
+/// Settings
+///
+/// The settings map allows you to conveniently define all of your variables in
+/// a single map.
+///
+/// You may have a map like so:
+/// ```
+/// $settings: (
+///   border: 1px solid black,
+///   z-index: (
+///     nav: 2,
+///     default: 1
+///   )
+/// );
+/// ```
+///
+/// And then you would simply use the `setting` function to call your defined
+/// settings, like so:
+/// ```
+/// .foo {
+///   border-top: setting(border);
+///   z-index: setting(z-index, default);
+/// }
+/// ```
+/// ----------------------------------------------------------------------------
+$settings: (
+  color: red,
+  button: (
+    padding: 10px
+  ),
+  transition: (
+    method: linear,
+    speed: 150ms
+  )
+) !global;
+
+/// ----------------------------------------------------------------------------
+/// Breakpoints
+///
+/// Defines commonly used breakpoints for media queries. Breakpoint values
+/// should use `em`, which is calculated using 16px as the base. Content should
+/// dictate your breakpoints, not screen widths of popular devices.
+///
+/// Here's an example of how a `$breakpoints` map could look:
+///
+/// ```
+/// $breakpoints: (
+///   foo: em(837px),
+///   components: (
+///     navigation: em(900px),
+///     sidebar: em(1044px)
+///   ),
+///   screen: (
+///     xl-min: em(1200px),
+///     lg-max: em(1200px - 1px),
+///     lg-min: em(800px),
+///     md-max: em(800px - 1px)
+///   )
+/// );
+/// ```
+///
+/// If you're using [Breakpoint](https://github.com/at-import/breakpoint), you
+/// may wish to add a no-query fallback to your breakpoints, like so:
+///
+/// `lg-min: (em(870px), $no-query)`.
+///
+/// More information about Breakpoint's no-query fallbacks can be read
+/// [here](https://github.com/at-import/breakpoint/wiki/No-Query-Fallbacks).
+/// ----------------------------------------------------------------------------
+$breakpoints: () !global;
+
+/// ----------------------------------------------------------------------------
+/// Colors
+///
+/// Colors can be adjusted by using Sass's native color functions, such as
+/// `lighten`, `darken` and `mix`. As a guideline, adjust colors for specific
+/// circumstances where the color may only be used once, such as hover states
+/// or slight variations in font color.
+///
+/// Colors can be configured like so:
+///
+/// ```
+/// $colors: (
+///   gray: (
+///     light: #999,
+///     base: #666,
+///     dark: #333
+///   )
+/// );
+/// ```
+///
+/// and called like so:
+///
+/// ```
+/// .foo {
+///   background-color: color(gray, dark);
+///   color: color(gray);
+/// }
+/// ```
+/// ----------------------------------------------------------------------------
+$colors: () !global;
+
+$palettes: $colors; // deprecated
+
+/// ----------------------------------------------------------------------------
+/// Font Families
+///
+/// Define custom font variables here. `$helvetica` and `$monospace` have been
+/// defined to start, but you may re-configure as needed.
+/// ----------------------------------------------------------------------------
+$helvetica:
+  'Helvetica Neue',
+  'Helvetica',
+  'Roboto',
+  'Arial',
+  sans-serif;
+
+$monospace:
+  'Source Code Pro',
+  'Menlo',
+  'Monaco',
+  'Consolas',
+  'Courier New',
+  monospace;

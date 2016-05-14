@@ -1,0 +1,9 @@
+{% set logoParams = {
+  class: null
+}|merge(params|default({})) %}
+
+<div class="logo{{ logoParams.class ? ' -' ~ logoParams.class }}" itemscope itemtype="http://schema.org/Organization">
+  <a itemprop="url" href="{{ siteUrl }}">
+    <img itemprop="logo" src="/assets/dist/images/logo.svg" alt=""/>
+  </a>
+</div>

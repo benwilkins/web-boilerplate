@@ -1,0 +1,37 @@
+<div class="form-control-group">
+  <label class="{% if required %}required{% endif %}"
+          for="{{ field.handle }}">
+      {{ field.name }}
+  </label>
+
+  <div class="form-control-select-wrapper">
+    <select class="form-control"
+      id="{{ field.handle }}"
+      name="fields[{{ field.handle }}]"
+      {% if required %}
+      aria-required="true"
+      data-val="true"
+      data-val-required="'{{ field.name }}' is required"
+    required
+      {% endif %}>
+
+      <option value="" selected>
+        Select One
+      </option>
+
+      {% for option in field.settings.options %}
+        {% set selected = submission is defined and submission[field.handle] ?
+        submission[field.handle] == option.value :
+        option.default
+        %}
+
+        <option value="{{ option.value }}">
+          {{ option.label }}
+        </option>
+
+      {% endfor %}
+    </select>
+
+    <span class="select-icon icon-down-dir"></span>
+  </div>
+</div>

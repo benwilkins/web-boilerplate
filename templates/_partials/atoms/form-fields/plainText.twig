@@ -1,0 +1,23 @@
+{% if postFieldsAsArray is not defined %}
+  {% set postFieldsAsArray = true %}
+{% endif %}
+
+<div class="form-control-group">
+  <label class="{{ required ? 'required' }}" for="{{ field.handle }}">{{ field.name }}</label><br>
+
+  {% if field.settings.multiline %}
+    <textarea {{ required ? 'required aria-required="true"' }}
+      class="form-control{{ required ? ' -required' }}"
+      name="{{ postFieldsAsArray ? 'fields[' }}{{ fieldPrefix|default('') }}{{ field.handle }}{{ postFieldsAsArray ? ']' }}"
+      id="{{ field.handle }}"
+      rows="{{ field.settings.initialRows }}"></textarea>
+
+  {% else %}
+    <input {{ required ? 'required aria-required="true"' }}
+      class="form-control{{ required ? ' -required' }}"
+      id="{{ field.handle }}"
+      name="{{ postFieldsAsArray ? 'fields[' }}{{ fieldPrefix|default('') }}{{ field.handle }}{{ postFieldsAsArray ? ']' }}"
+      type="text"
+      >
+  {% endif %}
+</div>

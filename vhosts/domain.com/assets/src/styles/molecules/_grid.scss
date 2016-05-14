@@ -1,0 +1,160 @@
+$grids: (
+  col2: (
+    layout: (
+      gutters: 23/500,
+      gutter-position: split
+    ),
+    breakpoints: (
+      xsmall: 1,
+      small: 1,
+      medium: 2,
+      large: 2
+    ),
+    spans: (
+      2: (
+        xsmall: full,
+        small: full,
+        medium: full,
+        large: full
+      )
+    )
+  ),
+  col3: (
+    layout: (
+      gutters: 7/100,
+      gutter-position: split
+    ),
+    breakpoints: (
+      xsmall: 1,
+      small: 1,
+      medium: 3,
+      large: 3
+    ),
+    spans: (
+      2: (
+        xsmall: full,
+        small: full,
+        medium: 1.5,
+        large: 1.5
+      )
+    )
+  ),
+  col4: (
+    layout: (
+      gutters: 19/200,
+      gutter-position: split
+    ),
+    breakpoints: (
+      xsmall: 1,
+      small: 1,
+      medium: 3,
+      large: 4
+    ),
+    spans: (
+      2: (
+        xsmall: full,
+        small: full,
+        medium: 1.5,
+        large: 2
+      )
+    )
+  ),
+  col6: (
+    layout: (
+      gutters: 15/100,
+      gutter-position: after
+    ),
+    breakpoints: (
+      xsmall: 1,
+      small: 2,
+      medium: 4,
+      large: 6
+    ),
+    spans: (
+      4: (
+        xsmall: full,
+        small: 2,
+        medium: 2.5,
+        large: 4
+      ),
+      3: (
+        xsmall: full,
+        small: 1,
+        medium: 2,
+        large: 3
+      ),
+      2: (
+        xsmall: full,
+        small: 2,
+        medium: 1.5,
+        large: 2
+      )
+    )
+  )
+);
+
+.grid {
+  @include clearfix;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+
+  @include columns(2, setting('col2.layout', $grids), setting('col2.breakpoints', $grids), setting('col2.spans', $grids));
+  @include columns(3, setting('col3.layout', $grids), setting('col3.breakpoints', $grids), setting('col3.spans', $grids));
+  @include columns(4, setting('col4.layout', $grids), setting('col4.breakpoints', $grids), setting('col4.spans', $grids));
+  @include columns(6, setting('col6.layout', $grids), setting('col6.breakpoints', $grids), setting('col6.spans', $grids));
+
+}
+
+.grid-item {
+  &:not(.-nogutter) {
+    @include gutters;
+  }
+  display: block;
+
+  &.-flush-left {
+    margin-left: 0 !important;
+  }
+
+  &.-flush-right {
+    margin-right: 0 !important;
+  }
+
+  .grid.-show-grid & {
+    background: #f00;
+  }
+
+  &.-white {
+    background-color: white;
+  }
+}
+
+.grid-button {
+  @include transition(background-color);
+
+  background-color: color(gray, xlight);
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+
+  &:hover {
+    background-color: darken(color(gray, xlight), 15%);
+  }
+
+  span {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    left: 50%;
+    position:  absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+  }
+}

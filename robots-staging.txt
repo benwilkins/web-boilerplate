@@ -1,0 +1,6 @@
+# www.robotstxt.org/
+# https://developers.google.com/webmasters/control-crawl-index/
+# Staging Environment
+
+User-agent: *
+Disallow: /

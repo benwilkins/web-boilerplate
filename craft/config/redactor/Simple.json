@@ -1,0 +1,13 @@
+{
+  buttons: [
+    'bold',
+    'italic',
+    'link',
+    'unorderedlist',
+    'orderedlist',
+    'horizontalrule'
+  ],
+  minHeight: 200,
+  observeLinks: true,
+  toolbarFixedBox: true
+}

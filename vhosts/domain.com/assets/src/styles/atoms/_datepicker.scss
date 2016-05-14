@@ -1,0 +1,272 @@
+/*!
+* Pikaday
+* Copyright (c) 2014 David Bushell | BSD & MIT license | http://dbushell.com/
+*/
+
+.pika-single {
+  @include clearfix;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-bottom-color: #bbb;
+  color: color(gray);
+  display: block;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  position: relative;
+  z-index: 9999;
+
+  &.is-hidden {
+    display: none;
+  }
+
+  &.is-bound {
+    position: absolute;
+    box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);
+  }
+
+  &.dark {
+    background-color: color(gray, dark);
+    border-color: color(gray);
+  }
+}
+
+.pika-lendar {
+  float: left;
+  margin: 8px;
+  width: 240px;
+}
+
+.pika-title {
+  color: color(green);
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+
+  .dark & {
+    color: white;
+  }
+
+  select {
+    cursor: pointer;
+    filter: alpha(opacity=0);
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    top: 5px;
+    z-index: 9998;
+  }
+}
+
+.pika-label {
+  background-color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  margin: 0;
+  overflow: hidden;
+  padding: 5px 3px;
+  position: relative;
+  z-index: 9999;
+
+  .dark & {
+    background-color: color(gray, dark);
+  }
+}
+
+.pika-prev,
+.pika-next {
+  background-color: transparent;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 75% 75%;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  height: 30px;
+  opacity: .5;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  text-indent: 20px; // hide text using text-indent trick, using width value (it's enough)
+  white-space: nowrap;
+  width: 20px;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.is-disabled {
+    cursor: default;
+    opacity: .2;
+  }
+}
+
+.pika-prev,
+.is-rtl .pika-next {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==');
+  float: left;
+}
+
+.pika-next,
+.is-rtl .pika-prev {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=');
+  float: right;
+}
+
+.pika-select {
+  display: inline-block;
+}
+
+.pika-table {
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  th,
+  td {
+    padding: 0;
+    width: 14.285714285714286%;
+
+    .dark & {
+      border-bottom-color: color(gray);
+    }
+  }
+
+  th {
+    color: color(green);
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 25px;
+    padding-bottom: 10px;
+    text-align: center;
+
+    .dark & {
+      color: color(green, light);
+    }
+  }
+
+  abbr {
+    border-bottom: none;
+    cursor: help;
+  }
+}
+
+.pika-button {
+  background-color: white;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: color(gray);
+  cursor: pointer;
+  display: block;
+  font-size: 12px;
+  line-height: 15px;
+  margin: 0;
+  outline: none;
+  padding: 12px 5px 8px;
+  text-align: center;
+  width: 100%;
+
+
+  .dark & {
+    background-color: color(gray, dark);
+    color: white;
+  }
+
+  .is-today & {
+    color: color(green, dark);
+    font-weight: bold;
+
+    .dark & {
+      color: color(green, light);
+    }
+  }
+
+  .is-selected & {
+    background-color: color(green);
+    box-shadow: none;
+    color: #fff;
+    font-weight: bold;
+
+    .dark & {
+      background-color: color(green, light);
+    }
+  }
+
+
+  .is-disabled & {
+    color: color(gray);
+    cursor: default;
+    opacity: .3;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background-color: color(gray, xxlight) !important;
+    box-shadow: none !important;
+
+    .dark & {
+      background-color: color(gray, xlight) !important;
+    }
+  }
+}
+
+.pika-week {
+  color: color(gray, light);
+  font-size: 11px;
+}
+
+
+.datepicker-container {
+  position: relative;
+  display: block;
+  margin-bottom: 10px;
+
+  @include breakpoint(em(600px)) {
+    float: left;
+    margin: 0 10px;
+  }
+}
+
+.datepicker-control {
+  &[readonly] {
+    background-color: white;
+    border-color: color(green);
+    color: color(gray);
+    cursor: pointer;
+  }
+
+  &.form-control--dark {
+    &[readonly] {
+      background-color: color(gray);
+      border-color: transparent;
+      color: white;
+    }
+  }
+
+  &.has-value {
+    background-image: none;
+  }
+}
+
+.remove-button {
+  display: none;
+  /*
+    @include size(auto 37px);
+    background-color: transparent;
+    background-image: path('icon-close.svg');
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    color: #a8a8a8;
+    display: inline-block;
+    font-size: 11px;
+    padding: 0;
+    padding-left: 22px;
+    position: absolute;
+    right: 14px;
+    text-transform: uppercase;
+    top: 18px;
+  */
+}

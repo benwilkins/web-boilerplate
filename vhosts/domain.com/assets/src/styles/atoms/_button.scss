@@ -1,0 +1,261 @@
+// Usage
+// <a class="button -primary" role="button" href="#" role="button">Link</a>
+// <button class="button -primary" type="submit">Button</button>
+// <input class="button -primary" type="button" value="Input">
+// <input class="button -primary" type="submit" value="Submit">
+
+// Settings
+$button: (
+  backgroundColor: (
+    default: color(green),
+    hover: color(green, dark)
+  ),
+  color: #fff,
+  fontSize: 1rem,
+  padding: 1em 2em,
+
+  primary: (
+    backgroundColor: (
+      default: color(green),
+      hover: color(green, dark)
+    )
+  ),
+
+  secondary: (
+    borderColor: (
+      default: color(gray, xlight),
+      hover: color(green)
+    ),
+    color: (
+      default: color(gray),
+      hover: color(green)
+    )
+  ),
+
+  large: (
+    fontSize: 1.125em,
+    padding: 1em 2em
+  ),
+
+  medium: (
+    fontSize: .9em,
+    padding: 1em 2em
+  ),
+
+  small: (
+    fontSize: .75em,
+    padding: 1em 1.5em
+  ),
+);
+
+// Definitions
+.button,
+a.button,
+p > a.button {
+  background-color: setting('backgroundColor.default', $button);
+  background-image: none;
+  border: 0;
+  border-radius: 0;
+  color: setting('color', $button);
+  cursor: pointer;
+  display: inline-block;
+  font-size: setting('fontSize', $button);
+  font-weight: 700;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 1px;
+  padding: setting('padding', $button);
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  transition: all .3s;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  // States
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: setting('backgroundColor.hover', $button);
+  }
+
+  &:active,
+  &:active:focus {
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: 1px dotted rgba(#000, .4);
+    text-decoration: underline;
+  }
+
+  &[disabled],
+  &.is-disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: .65;
+    pointer-events: none;
+  }
+
+  &:before {
+    content: none;
+  }
+
+  // Types
+
+  &.-primary {
+    background-color: setting('primary.backgroundColor.default', $button);
+    transition: background-color .25s ease-out;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: setting('primary.backgroundColor.hover', $button);
+    }
+  }
+
+  &.-secondary {
+    background-color: transparent;
+    border: 2px solid setting('secondary.borderColor.default', $button);
+    color: setting('secondary.color.default', $button);
+    position: relative;
+    transition: 0.5s;
+
+    &:after,
+    &:before {
+      background-color: transparent;
+      box-sizing: border-box;
+      content:'';
+      height:100%;
+      left:0;
+      position: absolute;
+      top:0;
+      -webkit-transform: scale(0);
+      -moz-transform: scale(0);
+      -ms-transform: scale(0);
+      -o-transform: scale(0);
+      transform: scale(0);
+      transition: 0.3s ease-in;
+      width: 100%;
+      z-index: 3;
+    }
+
+    &:before {
+      border-bottom: 2px solid setting('secondary.borderColor.hover', $button);
+      border-left: 2px solid setting('secondary.borderColor.hover', $button);
+      -webkit-transform-origin: 0% 100%;
+      -moz-transform-origin: 0% 100%;
+      -ms-transform-origin: 0% 100%;
+      -o-transform-origin: 0% 100%;
+      transform-origin: 0% 100%;
+    }
+
+    &:after {
+      border-top: 2px solid setting('secondary.borderColor.hover', $button);
+      border-right: 2px solid setting('secondary.borderColor.hover', $button);
+      -webkit-transform-origin: 100% 0%;
+      -moz-transform-origin: 100% 0%;
+      -ms-transform-origin: 100% 0%;
+      -o-transform-origin: 100% 0%;
+      transform-origin: 100% 0%;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      border: 2px solid rgba(0,160,80,0);
+      background-color: transparent;
+      color: setting('secondary.color.hover', $button);
+    }
+
+    &:hover:after,
+    &:hover:before {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1);
+    }
+
+    &.-white {
+      border-color: white;
+      color: white;
+      transition: background-color .5s;
+
+      &:before,
+      &:after {
+        content: none;
+      }
+
+      &:hover {
+        background-color: rgba(0,0,0,0.1);
+      }
+    }
+  }
+
+  // Sizes
+
+  &.-large {
+    font-size: setting('large.fontSize', $button);
+    padding: setting('large.padding', $button);
+  }
+
+  &.-medium {
+    font-size: setting('medium.fontSize', $button);
+    padding: setting('medium.padding', $button);
+  }
+
+  &.-small {
+    font-size: setting('small.fontSize', $button);
+    padding: setting('small.padding', $button);
+  }
+
+  // Styles
+
+  &.-block {
+    display: block;
+    padding: 2em !important;
+    width: 100%;
+  }
+
+  &.-text {
+    background-color: transparent;
+    color: color(green);
+    font-size: .9375rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    padding: 0;
+    text-transform: none;
+
+    &:after {
+      content: '\e80c';
+      font-family: $nsccIcons;
+      left: 0;
+      position: relative;
+      transition: left .3s;
+    }
+
+    &:hover {
+      color: color(green, dark);
+
+      &:after {
+        left: .25em;
+      }
+    }
+
+    &.-white,
+    &.-white:hover {
+      color: white;
+    }
+
+    &.-light-green {
+      color: color(green, xlight);
+    }
+
+    &.-light-green:hover {
+      color: darken(color(green, xlight), 8%);
+    }
+  }
+}

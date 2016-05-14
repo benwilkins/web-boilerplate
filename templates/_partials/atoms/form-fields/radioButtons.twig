@@ -1,0 +1,38 @@
+{% if postFieldsAsArray is not defined %}
+  {% set postFieldsAsArray = true %}
+{% endif %}
+
+<div class="form-control-group">
+  <div class="radio-inline">
+      <label class="{% if required %} required{% endif %}">
+          {{ field.name }}
+
+
+      {% for option in field.settings.options %}
+          {% set selected = submission is defined and submission[question.handle]
+              ? option.value in submission[question.handle]
+              : option.default
+          %}
+
+          <div class="radio">
+              <label>
+                  <input id="{{ field.handle ~ loop.index }}"
+                      name="{{ postFieldsAsArray ? 'fields[' }}{{ fieldPrefix|default('') }}{{ field.handle }}{{ postFieldsAsArray ? ']' }}[]"
+                      type="radio"
+                      value="{{ option.value }}"
+                      {{ selected ? 'checked' }}
+                      {% if required %}
+                          aria-required="true"
+                          data-val="true"
+                          data-val-required="'{{ field.name }}' is required"
+                          required
+                      {% endif %}>
+
+                  {{ option.label }}
+              </label>
+          </div><!-- .checkbox -->
+      {% endfor %}
+      </label><!-- .checkbox-group__label -->
+
+  </div><!-- .checkbox-group -->
+</div>

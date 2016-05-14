@@ -1,0 +1,24 @@
+/// ----------------------------------------------------------------------------
+/// Objects may be used in any number of unrelated contexts to the one you can
+/// currently see it in. Making modifications to these types of class could
+/// potentially lead to unintended results in a lot of other unrelated places.
+/// Tread carefully.
+///
+/// - Objects are abstract
+/// - They can be used in any number of places across the project — places you
+///   might not have even seen
+/// - Avoid modifying their styles
+/// - Be careful around anything with a lower-case classname
+///
+/// ### Format
+/// `.object-name[<element>|<modifier>] {}`
+///
+/// ### Example
+/// ```
+/// .layout {}
+/// .layout__item {}
+/// .layout--fixed {}
+/// ```
+/// ----------------------------------------------------------------------------
+
+@import 'container';

@@ -1,0 +1,13 @@
+{% set buttonParams = {
+  class: 'primary',
+  size: 'medium',
+  text: 'Submit',
+  url: ''
+}|merge(params|default({})) %}
+
+<a class="button -{{ buttonParams.class }} -{{ buttonParams.size }}"
+  data-text="{{ buttonParams.text }}"
+  href="{{ buttonParams.url }}"
+  role="button">
+  {{ buttonParams.text }}
+</a>

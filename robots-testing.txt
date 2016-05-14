@@ -1,0 +1,6 @@
+# www.robotstxt.org/
+# https://developers.google.com/webmasters/control-crawl-index/
+# Testing Environment
+
+User-agent: *
+Disallow: /

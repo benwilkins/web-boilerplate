@@ -1,0 +1,551 @@
+//// ---------------------------------------------------------------------------
+///  Functions
+///
+///  This file should not be edited; add custom fuctions and mixins to their
+///  respective files.
+///
+///  @group Framework
+//// ---------------------------------------------------------------------------
+
+@import 'functions'; // Import custom functions
+
+/// ----------------------------------------------------------------------------
+/// Splits `$string` into several parts using `$delimiter`
+///
+/// @author Hugo Giraudel <https://github.com/HugoGiraudel/SassyStrings>
+/// @param  {String} $string         - String to split
+/// @param  {String} $delimiter [''] - String to use as a delimiter to split `$string`
+/// @return {List}
+/// ----------------------------------------------------------------------------
+@function str-explode($string, $delimiter: '') {
+  @if type-of($string) != 'string' {
+    @error '`explode` function expecting a string; #{type-of($string)} given.';
+  }
+
+  @if type-of($delimiter) != 'string' {
+    @error '`explode` function expecting a string; #{type-of($delimiter)} given.';
+  }
+
+  $result: ();
+  $length: str-length($string);
+
+  @if str-length($delimiter) == 0 {
+    @for $i from 1 through $length {
+      $result: append($result, str-slice($string, $i, $i));
+    }
+
+    @return $result;
+  }
+
+  $running: true;
+  $remaining: $string;
+
+  @while $running {
+    $index: str-index($remaining, $delimiter);
+
+    @if $index {
+      $slice: str-slice($remaining, 1, $index - 1);
+      $result: append($result, $slice);
+      $remaining: str-slice($remaining, $index + str-length($delimiter));
+    } @else {
+      $running: false;
+    }
+  }
+
+  @return append($result, $remaining);
+}
+
+/// ----------------------------------------------------------------------------
+/// Strips units from given value
+///
+/// @param  {*} $value - Any value with units
+/// @return {*}        - Value without units
+/// ----------------------------------------------------------------------------
+@function strip-units($value) {
+  @return ($value / ($value * 0 + 1));
+}
+
+/// ----------------------------------------------------------------------------
+/// Fetches nested keys
+///
+/// @param  {Map}     $map  - Map
+/// @param  {Arglist} $keys - Keys to fetch
+/// @return {*}
+/// ----------------------------------------------------------------------------
+/* @function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+
+  @return $map;
+} */
+@function map-get-deep($map, $keys...) {
+  @if length($keys) == 1 {
+    $keys: nth($keys, 1);
+  }
+  $warn: "#{nth($keys, 1)}";
+  $length: length($keys);
+  $get: map-get($map, nth($keys, 1));
+
+  @if $length > 1 {
+    @for $i from 2 through $length {
+      @if $get != null and type-of($get) == 'map' {
+        $warn: $warn + "->#{nth($keys, $i)}";
+        $get: map-get($get, nth($keys, $i));
+
+        @if $get == null {
+          @return map-get-deep-warning($warn, $get, nth($keys, $i));
+        }
+      }
+      @else {
+        @return map-get-deep-warning($warn, $get, nth($keys, $i));
+      }
+    }
+  }
+
+  @return $get;
+}
+
+@function map-get-deep-warning($warn, $get, $key) {
+  @if $get == null {
+    @warn "Map has no value for key search `#{$warn}`";
+  }
+  @else if type-of($get) != 'map' {
+    @warn "Non-map value found for key search `#{$warn}`, cannot search for key `#{$key}`";
+  }
+  @return null;
+}
+
+/// ----------------------------------------------------------------------------
+/// Creates an alias for native `map-get` and custom `map-deep-get`
+///
+/// @param  {Map}      $map        - Map
+/// @param  {String}   $key        - Key value
+/// @param  {String}   $nested-key - Nested key value
+/// @return {Function}
+/// ----------------------------------------------------------------------------
+@function get($map, $key, $nested-key: '') {
+  @if($nested-key == '') {
+    @return map-get($map, $key);
+
+  } @else {
+    @return map-deep-get($map, $key, $nested-key);
+
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Creates a shortcut to return a breakpoint value
+///
+/// @param  {List}     $break - List of breakpoints
+/// @return {Function}
+/// ----------------------------------------------------------------------------
+@function break($break...) {
+  @return map-get-deep($breakpoints, $break);
+}
+
+/// ----------------------------------------------------------------------------
+/// Creates a shortcut to return a setting value
+///
+/// @param  {List}     $props             - List of properties
+/// @param  {Map}      $map   [$settings] - Settings map
+/// @return {Function}
+/// ----------------------------------------------------------------------------
+@function setting($props, $map: $settings) {
+  $props-list: str-explode($props, $delimiter: '.');
+
+  @if length($props-list) > 1 {
+    @return map-get-deep($map, $props-list);
+
+  } @else {
+    @return map-get($map, nth($props, 1));
+
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Returns the `width` or `height` of an icon
+///
+/// @param  {String} $name      - Icon name
+/// @param  {String} $dimension - `width` or `height`
+/// @return {String}              Value of specificed dimension
+/// ----------------------------------------------------------------------------
+@function icon($name, $dimension) {
+  @return map-get-deep($icons, $name, $dimension);
+}
+
+/// ----------------------------------------------------------------------------
+/// Returns a color value
+///
+/// @param  {String}   $color         - Color name; key value
+/// @param  {String}   $tone ['base'] - Color tone; nested key value
+/// @return {Function}
+/// ----------------------------------------------------------------------------
+@function color($color, $tone: 'base') {
+  @return map-get-deep($colors, $color, $tone);
+}
+
+/// ----------------------------------------------------------------------------
+/// Returns a color value
+///
+/// @deprecated
+/// @see {Function} color
+/// @param  {String}   $color         - Color name; key value
+/// @param  {String}   $tone ['base'] - Color tone; nested key value
+/// @return {Function}
+/// ----------------------------------------------------------------------------
+@function palette($palette, $tone: 'base') {
+  @warn 'The `palette` function has been deprecated; use `color` instead.';
+
+  @return map-get-deep($palettes, $palette, $tone);
+}
+
+/// ----------------------------------------------------------------------------
+/// Convert a pixel value to a percentage value
+///
+/// @param  {String} $target  - Pixel value of element width
+/// @param  {String} $context - Pixel value of element's container width
+/// @return {String}          - Percentage value
+/// ----------------------------------------------------------------------------
+@function percent($target, $context) {
+  @return ($target / $context) * 100%;
+}
+
+/// ----------------------------------------------------------------------------
+/// Convert a pixel value to an em value
+///
+/// For a relational value, the input is calculated based on a parent value.
+/// The default parent is 16px. The parent can be changed by passing an
+/// optional second value.
+///
+/// @param  {String} $pixel       - Pixel value to convert
+/// @param  {String} $base [16px] - Base pixel value
+/// @return {String}              - em value
+/// ----------------------------------------------------------------------------
+@function em($pixel, $base: 16px) {
+  @return ($pixel / $base) * 1em;
+}
+
+/// ----------------------------------------------------------------------------
+/// Slightly lighten a color (http://cl.ly/1K0T3f3l0N2G)
+///
+/// @param  {String} $color      - Color to tint
+/// @param  {String} $percentage - Percentage of `$color` in returned color
+/// @return {String}             - Hex value
+/// ----------------------------------------------------------------------------
+@function tint($color, $percentage) {
+  @return mix($color, white, $percentage);
+}
+
+/// ----------------------------------------------------------------------------
+/// Slightly darken a color (http://cl.ly/1K0T3f3l0N2G)
+///
+/// @param  {String} $color      - Color to shade
+/// @param  {String} $percentage - Percentage of `$color` in returned color
+/// @return {String}             - Hex value
+/// ----------------------------------------------------------------------------
+@function shade($color, $percentage) {
+  @return mix($color, black, $percentage);
+}
+
+/// ----------------------------------------------------------------------------
+/// Returns a URL path
+///
+/// @param  {String} $src          - Source image (filename and extension)
+/// @param  {String} $dir [images] - Directory where the source image exists
+/// @return {String}               - URL
+/// ----------------------------------------------------------------------------
+@function path($src, $dir: images) {
+  $src: unquote($src);
+
+  @return url(../#{$dir}/#{$src});
+}
+
+/// ----------------------------------------------------------------------------
+/// Extends Susy by returning a static span width in pixels and thus, requires
+/// [Susy](http://susy.oddbird.net/).
+///
+/// @param  {Number} $columns        - Number of columns to span
+/// @param  {Map}    $layout [$susy] - Layout map
+/// @return {String}                 - Pixel width
+/// ----------------------------------------------------------------------------
+@function span-px($columns, $layout: $susy) {
+  $column-width: susy-get(container, $layout) / susy-get(columns, $layout);
+
+  @return $column-width * $columns;
+}
+
+/// ----------------------------------------------------------------------------
+/// This is a shorthand for converting one to three dimensions into their
+/// four-value syntax. It's used in the position mixin.
+///
+/// @param  {String} $shorthand - Values to unpack
+/// @return {String}
+/// ----------------------------------------------------------------------------
+@function unpack($shorthand) {
+  @if length($shorthand) == 1 {
+    @return nth($shorthand, 1)
+            nth($shorthand, 1)
+            nth($shorthand, 1)
+            nth($shorthand, 1);
+
+  } @else if length($shorthand) == 2 {
+    @return nth($shorthand, 1)
+            nth($shorthand, 2)
+            nth($shorthand, 1)
+            nth($shorthand, 2);
+
+  } @else if length($shorthand) == 3 {
+    @return nth($shorthand, 1)
+            nth($shorthand, 2)
+            nth($shorthand, 3)
+            nth($shorthand, 2);
+
+  } @else {
+    @return $shorthand;
+
+  }
+}
+
+//// ---------------------------------------------------------------------------
+///  Mixins
+///
+///  @group Framework
+//// ---------------------------------------------------------------------------
+
+@import 'mixins'; // Import custom mixins
+
+/// ----------------------------------------------------------------------------
+/// Vertically centers an element within a parent element with a defined height.
+/// An optional offset is used to shift the element up or down, causing the
+/// element to leave its point of center. A positive value pulls the element up
+/// while a negative value pushes it down.
+///
+/// @include centered(); // absolute center (0)
+/// @include centered(10px); // 10px off center, pulled up (-10px)
+/// @include centered(-10px); // 10px off center, pushed down (10px)
+/// ----------------------------------------------------------------------------
+@mixin centered($offset: 0) {
+  position: relative;
+  top: 50%;
+
+  @if $offset == 0 {
+    transform: translateY(-50%);
+
+  } @else {
+    transform: translateY(calc(-50% - #{$offset}));
+
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Provides an easy way to include a clearfix for containing floats.
+/// http://cl.ly/430J0P3e181Q
+/// ----------------------------------------------------------------------------
+@mixin clearfix {
+  &:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Image replacement technique
+/// ----------------------------------------------------------------------------
+@mixin hide-text {
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0;
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Hide visually and from screen readers
+/// ----------------------------------------------------------------------------
+@mixin hidden {
+  display: none;
+}
+/// ----------------------------------------------------------------------------
+/// Hide visually and from screen readers, but maintain layout
+/// ----------------------------------------------------------------------------
+@mixin invisible {
+  visibility: hidden;
+}
+
+/// ----------------------------------------------------------------------------
+/// Hide only visually, but have it available for screen readers
+/// http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+/// ----------------------------------------------------------------------------
+@mixin visuallyhidden($focusable: '') {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+
+  @if $focusable == 'focusable' {
+    // Extends the .visuallyhidden class to allow the element to be focusable
+    // when navigated to via the keyboard: https://www.drupal.org/node/897638
+
+    &:active,
+    &:focus {
+      clip: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      position: static;
+      width: auto;
+    }
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Resets browser default styling for list elements
+/// ----------------------------------------------------------------------------
+@mixin list-reset {
+  line-height: 1;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/// ----------------------------------------------------------------------------
+/// Outputs vendor-prefixed placeholders for styling. Must be nested in a
+/// rule-set.
+/// ----------------------------------------------------------------------------
+@mixin placeholder {
+  $placeholders: ':-webkit-input' ':-moz' '-moz' '-ms-input';
+
+  @each $placeholder in $placeholders {
+    &:#{$placeholder}-placeholder {
+      @content;
+    }
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Shorthand notation for setting the position of elements
+///
+/// @param {String} $position    [relative]            - `position` CSS value
+/// @param {String} $coordinates [null null null null] - Space delimited list
+///                                                      of values that follow
+///                                                      the standard CSS
+///                                                      shorthand notation.
+///                                                      Null values will be
+///                                                      ignored.
+///
+/// @example scss - Usage
+/// .foo {
+///   @include position(absolute, 10px null null 10px);
+/// }
+/// ----------------------------------------------------------------------------
+@mixin position ($position: relative, $coordinates: null null null null) {
+  @if type-of($position) == list {
+    $coordinates: $position;
+    $position: relative;
+  }
+
+  $coordinates: unpack($coordinates);
+
+  $top:    nth($coordinates, 1);
+  $right:  nth($coordinates, 2);
+  $bottom: nth($coordinates, 3);
+  $left:   nth($coordinates, 4);
+
+  position: $position;
+
+  @if ($top and $top == auto) or (type-of($top) == number) {
+    top: $top;
+  }
+
+  @if ($right and $right == auto) or (type-of($right) == number) {
+    right: $right;
+  }
+
+  @if ($bottom and $bottom == auto) or (type-of($bottom) == number) {
+    bottom: $bottom;
+  }
+
+  @if ($left and $left == auto) or (type-of($left) == number) {
+    left: $left;
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Set width and height in a single statement. Accepts all units, including
+/// `auto` and `inherit`, unitless numbers, and
+/// [intrinsic keywords](http://dev.w3.org/csswg/css-sizing/#width-height-keywords)
+/// like `fill`, `max-content`, `min-content` and `fit-content`. You can also
+/// use this mixin with the `calc()` CSS function.
+///
+/// @param  {String} $value - Space delimited list of values; `width` and
+///                           `height`.
+///
+/// @example scss - Usage
+/// .foo {
+///   @include size(300px 100px);
+/// }
+/// ----------------------------------------------------------------------------
+@mixin size($value) {
+  $width: nth($value, 1);
+  $height: $width;
+
+  @if length($value) > 1 {
+    $height: nth($value, 2);
+  }
+
+  @if is-size($height) {
+    height: $height;
+  }
+
+  @else {
+    @warn "`#{$height}` is not a valid length for the `$height` parameter in the `size` mixin.";
+  }
+
+  @if is-size($width) {
+    width: $width;
+  }
+
+  @else {
+    @warn "`#{$width}` is not a valid length for the `$width` parameter in the `size` mixin.";
+  }
+}
+
+/// ----------------------------------------------------------------------------
+/// Outputs a PNG fallback with SVG. Requires feature detection, such as
+/// Modernizr.
+///
+/// @param  {String} $image-name - File name of SVG image, with file extension
+///                                omitted.
+///
+/// @example scss - Usage
+/// .foo {
+///   @include svg-with-png(logo);
+/// }
+/// ----------------------------------------------------------------------------
+@mixin svg-with-png($image-name) {
+  background-image: path('#{$image-name}.svg', svg);
+
+  .no-svg & {
+    background-image: path('#{$image-name}.png');
+  }
+}
+
+@mixin transition($property: 'all') {
+  $length: length($property);
+
+  // @each $prop in $property {}
+  // #{$property} setting('transition.speed') setting('transition.method');
+
+  transition: #{$property}
+              setting('transition.speed')
+              setting('transition.method');
+}

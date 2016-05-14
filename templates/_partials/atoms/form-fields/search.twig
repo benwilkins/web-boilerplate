@@ -1,0 +1,15 @@
+{% set searchParams = {
+  fieldName: 'search',
+  placeholder: 'Search'
+}|merge(params|default({})) %}
+
+<div class="form-control-group search-box-wrapper">
+  <label for="{{ searchParams.fieldName }}" aria-hidden="true">{{ searchParams.placeholder }}</label>
+
+  <input
+    class="form-control"
+    id="{{ searchParams.fieldName }}"
+    name="{{ searchParams.fieldName }}"
+    placeholder="{{ searchParams.placeholder }}"
+    type="text">
+</div>

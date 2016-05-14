@@ -1,0 +1,14 @@
+{% if postFieldsAsArray is not defined %}
+  {% set postFieldsAsArray = true %}
+{% endif %}
+
+<div class="form-control-group datepicker-container">
+  <label class="{{ required ? 'required' }}" for="{{ field.handle }}">{{ field.name }}</label><br>
+
+    <input {{ required ? 'required aria-required="true"' }}
+      class="form-control{{ required ? ' -required' }}"
+      data-component="datepicker"
+      id="{{ field.handle }}"
+      name="{{ postFieldsAsArray ? 'fields[' }}{{ fieldPrefix|default('') }}{{ field.handle }}{{ postFieldsAsArray ? ']' }}"
+      type="text">
+</div>

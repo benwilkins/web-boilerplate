@@ -1,0 +1,82 @@
+@mixin swatches($colors: ()) {
+  @each $name, $shades in $colors {
+    @each $shade, $value in $shades {
+      &.-color--#{$name}--#{$shade} {
+        background-color: $value;
+      }
+    }
+  }
+}
+
+.styleguide__nav {
+  background-color: darkgray;
+  color: white;
+  display: block;
+
+  ul {
+    display: block;
+    list-style: none;
+  }
+
+  li {
+    list-style: none;
+    display: inline-block;
+
+    a {
+      color: white;
+      display: block;
+      padding: .25em .5em;
+    }
+  }
+}
+
+.sg__item {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.sg__heading {
+  border-bottom: 1px solid #ddd;
+  color: gray;
+  font-family: $helvetica;
+  font-size: 70%;
+  font-weight: normal;
+  margin-bottom: 2em;
+  padding: 1em 0;
+}
+
+.sg__color {
+  border: 1px solid #ddd;
+  display: inline-block;
+  padding: .3em;
+  width: 5em;
+
+  .sg__color__swatch {
+    display: block;
+    height: 4em;
+    margin-bottom: .2em;
+    width: 100%;
+
+    @include swatches($colors);
+  }
+
+  .sg__color__label {
+    font-size: 80%;
+  }
+}
+
+.sg__icon {
+  display: inline-block;
+}
+
+.sg__todo {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: .15em;
+}
+
+// Overrides
+
+.styleguide {
+}

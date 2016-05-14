@@ -1,0 +1,17 @@
+{% extends '_layouts/default' %}
+
+{% set meta = {
+  title: '',
+  url: siteUrl,
+  description: '',
+  keywords: '',
+  image: ''
+} %}
+
+{% block content %}
+  {% cache using key 'home-page' %}
+
+    Home page
+
+  {% endcache %}
+{% endblock %}

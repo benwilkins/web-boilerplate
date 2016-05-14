@@ -1,0 +1,70 @@
+# Local Config Settings
+# Exclude local config files so we don't overwrite other local setups.
+# Leave example files that can be renamed to get setup
+# @TODO - consider excluding dev and live database files.
+# ------------------------------------------------------------
+craft/config/local/*
+
+
+# Public Folders
+# ------------------------------------------------------------
+vhosts/*/assets/dist
+vhosts/*/assets/vendor
+vhosts/*/cache
+vhosts/*/content/uploads/*
+vhosts/*/*.tmp
+vhosts/*/tmp
+vhosts/*/robots.txt
+
+
+# Component Folders
+# ------------------------------------------------------------
+node_modules
+bower_components
+
+
+# Craft Storage
+# It's probably safe to ignore the following in the storage folders.
+# The rest of the items in the storage folder are up to us...
+# ------------------------------------------------------------
+craft/storage/runtime/*
+craft/storage/backups/*
+craft/storage/userphotos/*
+
+
+# Misc Files and Folders
+# ------------------------------------------------------------
+.sass-cache
+.DS_Store
+*.DS_Store*
+._*
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+*.esproj
+*.sublime-workspace
+*.sublime-project
+.idea
+.idea/*
+_notes
+dwsync.xml
+logs/*
+.sublime-gulp.cache
+
+
+# Numerous always-ignore extensions
+# ------------------------------------------------------------
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.zip
+*.vi
+*~
+*.tmp
+tmp

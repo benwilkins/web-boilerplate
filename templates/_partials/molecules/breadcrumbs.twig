@@ -1,0 +1,17 @@
+<nav class="breadcrumb">
+  <ul>
+    <li class="breadcrumb__item">
+      <a href="{{ siteUrl }}">Home</a>
+    </li>
+
+    {% for crumb in entry.getAncestors() %}
+      <li class="breadcrumb__item">
+        {{ crumb.getLink() }}
+      </li>
+    {% endfor %}
+
+    <li class="breadcrumb__item -active">
+      <span>{{ entry.title }}</span>
+    </li>
+  </ul>
+</nav><!-- .breadcrumb -->

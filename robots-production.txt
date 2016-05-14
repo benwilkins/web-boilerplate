@@ -1,0 +1,7 @@
+# www.robotstxt.org/
+# https://developers.google.com/webmasters/control-crawl-index/
+# Production Environment
+
+User-agent: *
+Disallow: /craft/
+Disallow: /styleguide/

@@ -1,0 +1,39 @@
+{% for block in entry.contentMatrix %}
+  {% switch block.type %}
+    {% case 'leadParagraph' %}
+      {% include '_partials/atoms/paragraph' with { params: {
+        class: 'lead-paragraph',
+        text: block.text
+      }} %}
+
+    {% case 'heading' %}
+      {% include '_partials/atoms/heading' with { params: {
+        size: block.size,
+        text: block.text
+      }} %}
+
+    {% case 'image' %}
+      {% include '_partials/atoms/image' with { params: {
+        image: block.asset.first(),
+        alignment: block.alignment
+      }} %}
+
+    {% case 'pullQuote' %}
+      {% include '_partials/atoms/blockquote' with { params: {
+        alignment: block.alignment,
+        citation: block.citation,
+        text: block.text
+      }} %}
+
+    {% case 'button' %}
+      {% include '_partials/atoms/button' with { params: {
+        size: block.size,
+        text: block.label,
+        url: block.linkUrl
+      }} %}
+
+    {% default %}
+      {{ block.text|default('') }}
+
+  {% endswitch %}
+{% endfor %}

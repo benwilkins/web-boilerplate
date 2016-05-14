@@ -1,0 +1,29 @@
+{#
+    telephoneForHref
+    ============================================================================
+
+    ## Documentation
+
+    This macro takes a formatted phone number and cleans it for the href
+    attribute. It also checks for the presence of the US country code.
+
+    Accepted formats include (with or without US country code):
+
+    - (888) 123-5555
+    - 888-123-5555
+    - 888.123.5555
+
+    ## Usage
+
+    {% from 'telephoneForHref' import telephoneForHref as telephone %}
+
+    <a href="{{ telephone(entry.phoneNumber) }}">
+      {{ entry.phoneNumber }}
+    </a>
+#}
+
+{% macro telephoneForHref(phoneNumber) %}
+  {% set countryCode = phoneNumber|first == '1' ? '' : '1' %}
+
+  tel:+{{ countryCode }}{{ phoneNumber|trim|replace({'(': '', ')': '', ' ': '', '.': '', '-': ''}) }}
+{% endmacro %}

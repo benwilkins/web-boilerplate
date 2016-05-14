@@ -1,0 +1,27 @@
+@mixin columns($columns, $layout, $breakpoints: (), $spans: ()) {
+  &.-col#{$columns} {
+    @include with-layout($layout) {
+      @each $breakpoint, $cols in $breakpoints {
+        @include susy-breakpoint(setting('breakpoint.' + $breakpoint), $cols) {
+          .grid-item {
+            @include span(1);
+            margin-bottom: gutter($columns);
+
+            @each $span, $spanMap in $spans {
+              &.-span#{$span} {
+                @include span(setting($breakpoint, $spanMap));
+              }
+            }
+
+            &:nth-child(#{$columns}n),
+            &:last-child {
+              margin-right: 0;
+            }
+
+            @content;
+          }
+        }
+      }
+    }
+  }
+}

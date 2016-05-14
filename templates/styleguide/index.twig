@@ -1,0 +1,329 @@
+{% extends '_layouts/styleguide' %}
+
+{% set headline = 'Lorem ipsum dolor sit amet consectetur adipiscing elit.' %}
+{% set paragraph %}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eum qui audiebant, quoad poterant, defendebant sententiam suam. Quod quidem iam fit etiam in Academia. Ut optime, secundum naturam affectum esse possit. Nemo nostrum istius generis asotos iucunde putat vivere. Qui enim existimabit posse se miserum esse beatus non erit. Quid vero?
+{% endset %}
+{% set quote = 'Lorem ipsum dolor sit amet consectetur adipiscing elit eam stabilem appellas quae cum magnifice primo.' %}
+
+{% block patterns %}
+
+  <section id="atoms" class="section-wrapper -white">
+    <div class="container">
+      <div class="sg__item">
+        <h2 class="sg__heading">Global: Colors</h2>
+        {% include '_partials/atoms/examples/colors' %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Global: Fonts</h2>
+        {% include '_partials/atoms/examples/fonts' %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Text: Headings</h2>
+        {% for size in 1..6 %}
+          {% include '_partials/atoms/heading' with { params: {
+            size: size,
+            text: headline
+          }} %}
+        {% endfor %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Text: Label</h2>
+        <p class="label">
+          Section Label
+        </p>
+        <p class="label -gray">
+          Section Label
+        </p>
+        <p class="label -green">
+          Section Label
+        </p>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Text: Paragraph</h2>
+        {% include '_partials/atoms/paragraph' with { params: {
+          text: paragraph
+        }} %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Text: Lead Paragraph</h2>
+        {% include '_partials/atoms/paragraph' with { params: {
+          class: 'lead-paragraph',
+          text: paragraph
+        }} %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Text: Blockquote</h2>
+        {% include '_partials/atoms/blockquote' with { params: {
+          citation: 'Abraham Lincoln',
+          text: quote
+        }} %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Text: Links</h2>
+        {#{% include '_partials/atoms/text/inline-elements' %}#}
+        <p>
+          This is what a <a href="#">hyperlink</a> would look like in a normal paragraph.
+        </p>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Text: Horizontal Rule</h2>
+        <hr>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Lists: Unordered</h2>
+        {% include '_partials/atoms/examples/list' %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Lists: Ordered</h2>
+        {% include '_partials/atoms/examples/list' with { listType: 'o' } %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Images: Logo</h2>
+        {% include '_partials/atoms/logo' with { params: {
+          class: 'display-only'
+        }} %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Images: Icons</h2>
+        {% include '_partials/atoms/examples/icons' %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Images: Favicon &amp; Touch Icons</h2>
+        {% include '_partials/atoms/examples/favicon' %}
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Buttons</h2>
+        <p>
+          {% include '_partials/atoms/button' with { params: {
+            size: 'large',
+            text: 'Learn More'
+          }} %}
+          {% include '_partials/atoms/button' with { params: {
+            size: 'medium',
+            text: 'Learn More'
+          }} %}
+          {% include '_partials/atoms/button' with { params: {
+            size: 'small',
+            text: 'Learn More'
+          }} %}
+        </p>
+        <p>
+          {% include '_partials/atoms/button' with { params: {
+            class: 'secondary',
+            size: 'large',
+            text: 'Learn More'
+          }} %}
+          {% include '_partials/atoms/button' with { params: {
+            class: 'secondary',
+            size: 'medium',
+            text: 'Learn More'
+          }} %}
+          {% include '_partials/atoms/button' with { params: {
+            class: 'secondary',
+            size: 'small',
+            text: 'Learn More'
+          }} %}
+        </p>
+        <p>
+          {% include '_partials/atoms/button' with { params: {
+            class: 'block',
+            text: 'Load More'
+          }} %}
+        </p>
+        <p>
+          {% include '_partials/atoms/button' with { params: {
+            class: 'text',
+            text: 'Get Started'
+          }} %}
+        </p>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Forms: Text fields</h2>
+        <p>
+          {% include '_partials/atoms/form-fields/plainText' with {
+            field: {
+              handle: 'text-field',
+              name: 'Text field',
+              settings: {
+                initialRows: '',
+                multiline: false
+              },
+            },
+            required: false
+          } %}
+        </p>
+        <p>
+          {% include '_partials/atoms/form-fields/plainText' with {
+            field: {
+              handle: 'text-field-required',
+              name: 'Required Text field',
+              settings: {
+                initialRows: '',
+                multiline: false
+              },
+            },
+            required: true
+          } %}
+        </p>
+        <p>
+          {% include '_partials/atoms/form-fields/sproutEmailField_Email' with {
+            field: {
+              handle: 'email',
+              name: 'Email',
+              settings: {
+                initialRows: '',
+                multiline: false
+              },
+            },
+            required: true
+          } %}
+        </p>
+        <p>
+          {% include '_partials/atoms/form-fields/number' with {
+            field: {
+              handle: 'number',
+              name: 'Number',
+              settings: {
+                initialRows: '',
+                multiline: false
+              },
+            },
+            required: false
+          } %}
+        </p>
+        <p>
+          {% include '_partials/atoms/form-fields/search' %}
+        </p>
+        <p>
+          {% include '_partials/atoms/form-fields/plainText' with {
+            field: {
+              handle: 'textarea',
+              name: 'Textarea',
+              settings: {
+                initialRows: '',
+                multiline: true
+              },
+            },
+            required: false
+          } %}
+        </p>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Forms: Select Fields</h2>
+        <p>
+          {% include '_partials/atoms/form-fields/dropdown' with {
+            field: {
+              handle: 'select',
+              name: 'Select Box',
+              settings: {
+                options: [{ label: 'Option One', value: 'one', default: false }, { label: 'Option Two', value: 'two', default: false}]
+              }
+            },
+            required: false
+          } %}
+        </p>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Forms: Checkboxes</h2>
+        <p>
+          {% include '_partials/atoms/form-fields/checkboxes' with {
+            field: {
+              handle: 'checkboxes',
+              name: 'Checkboxes',
+              settings: {
+                options: [{ label: 'Option One', value: 'one', default: false }, { label: 'Option Two', value: 'two', default: false}]
+              }
+            },
+            required: false
+          } %}
+        </p>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Forms: Radio Buttons</h2>
+        <p>
+          {% include '_partials/atoms/form-fields/radioButtons' with {
+            field: {
+              handle: 'radio',
+              name: 'Radio Buttons',
+              settings: {
+                options: [{ label: 'Option One', value: 'one', default: false }, { label: 'Option Two', value: 'two', default: false}]
+              }
+            },
+            required: false
+          } %}
+        </p>
+      </div>
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Forms: HTML5 Inputs</h2>
+        <p>
+          {% include '_partials/atoms/form-fields/date' with {
+            field: {
+              handle: 'datepicker',
+              name: 'Date Picker',
+            },
+            required: false
+          } %}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="molecules" class="section-wrapper -gray">
+    <div class="container">
+      {% for size in [2,3,4,6] %}
+        <div class="sg__item">
+          <h2 class="sg__heading">Grid: {{ size }} Column</h2>
+            {% include '_partials/molecules/grid' with { params: {
+              class: 'show-grid',
+              size: size,
+              items: range(1, 12)
+            }} %}
+        </div>
+      {% endfor %}
+
+      <div class="sg__item">
+        <h2 class="sg__heading">Breadcrumbs</h2>
+        {% include '_partials/molecules/examples/breadcrumbs' %}
+      </div>
+
+    </div>{# /.container #}
+  </section>{# /#molecules #}
+
+  <section id="organisms" class="section-wrapper -white">
+    <div class="container">
+      <div class="sg__item">
+        <h2 class="sg__heading">Global Header</h2>
+      </div>
+    </div>
+
+    {% include '_partials/organisms/header' %}
+
+    <div class="container">
+      <div class="sg__item">
+        <h2 class="sg__heading">Global Footer <em class="sg__todo">// TODO</em></h2>
+      </div>
+    </div>
+
+    {% include '_partials/organisms/footer' %}
+  </section>{# /#organisms #}
+{% endblock %}

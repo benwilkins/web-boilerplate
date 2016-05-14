@@ -1,0 +1,17 @@
+{% extends '_layouts/default' %}
+
+{% set meta = {
+  title: '',
+  url: siteUrl,
+  description: '',
+  keywords: '',
+  image: ''
+} %}
+
+{% block content %}
+  {% cache using key '404-page' %}
+
+    404
+
+  {% endcache %}
+{% endblock %}

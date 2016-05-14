@@ -1,0 +1,9 @@
+{% set headingParams = {
+  class: '',
+  size: 2,
+  text: ''
+}|merge(params|default({})) %}
+
+<h{{ headingParams.size }}{{ headingParams.class ? ' class=' ~ headingParams.class }}>
+  {{ headingParams.text }}
+</h{{ headingParams.size }}>

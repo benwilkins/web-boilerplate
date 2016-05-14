@@ -1,0 +1,8 @@
+{% set paragraphParams = {
+  class: null,
+  text: ''
+}|merge(params|default({})) %}
+
+<p{{ paragraphParams.class ? ' class=' ~ paragraphParams.class }}>
+  {{ paragraphParams.text }}
+</p>

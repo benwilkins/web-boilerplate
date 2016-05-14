@@ -1,0 +1,100 @@
+{% set imageParams = {
+  image: null,
+  alignment: 'right'
+}|merge(params|default({})) %}
+
+{% set transforms = {
+  pull: {
+    mode: 'crop',
+    width: 375,
+    height: 200,
+    position: 'center-center'
+  },
+  center: {
+    mode: 'crop',
+    width: 780,
+    height: 420,
+    position: 'center-center'
+  },
+  full: {
+    small: {
+      mode: 'crop',
+      width: 500,
+      height: 312,
+      position: 'center-center'
+    },
+    medium: {
+      mode: 'crop',
+      width: 800,
+      height: 400,
+      position: 'center-center'
+    },
+    large: {
+      mode: 'crop',
+      width: 1200,
+      height: 480,
+      position: 'center-center'
+    },
+    xlarge: {
+      mode: 'crop',
+      width: 1500,
+      height: 480,
+      position: 'center-center'
+    }
+  }
+} %}
+
+{% if image %}
+  {% if imageParams.alignment == 'left' or imageParams.alignment == 'right' %}
+    <div class="media -{{ imageParams.alignment }}">
+      <img class="photo"
+        src="{{ image.getUrl(transforms.pull) }}"
+        alt="{{ image.title }}">
+
+      {% if image.title %}
+        <div class="caption -affixed">
+          {{ image.title }}
+        </div><!-- .caption -->
+      {% endif %}
+    </div><!-- .media -->
+  {% endif %}
+
+  {% if imageParams.alignment == 'center' %}
+    <div class="media -wide">
+      <img class="photo"
+        src="{{ image.getUrl(transforms.center) }}"
+        alt="{{ image.title }}">
+
+      {% if image.title %}
+        <div class="caption -affixed">
+          {{ image.title }}
+        </div><!-- .caption -->
+      {% endif %}
+    </div><!-- .media -->
+  {% endif %}
+
+  {% if imageParams.alignment == 'full' %}
+    <div class="media">
+      <picture>
+        <source
+          media="(min-width: 1200px)"
+          srcset="{{ image.getUrl(transforms.full.xlarge) }} 1500w">
+        <source
+          media="(min-width: 800px)"
+          srcset="{{ image.getUrl(transforms.full.large) }} 1200w">
+        <source
+          media="(min-width: 500px)"
+          srcset="{{ image.getUrl(transforms.full.medium) }} 800w">
+        <img class="photo"
+          src="{{ image.getUrl(transforms.full.small) }}"
+          alt="{{ image.title }}">
+      </picture>
+
+      {% if image.title %}
+        <div class="caption -affixed -large">
+          {{ image.title }}
+        </div><!-- .caption -->
+      {% endif %}
+    </div><!-- .media -->
+  {% endif %}
+{% endif %}

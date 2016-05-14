@@ -1,0 +1,35 @@
+{#
+    truncate
+    ============================================================================
+
+    ## Documentation
+
+    This macro takes a string of text, truncates it to the desired length and
+    adds an ellipsis if necessary.
+
+    - `text` is required; it's usually `entry.title`.
+    - `shortText` is optional; `text` is used if no `shortText` is found.
+    Typically, `shortText` would be a custom field with a matching default
+    character limit that you would create for the entry. The user would then use
+    `shortText` if the entry title exceeds the desired limit. The presence of
+    this field is not mandatory, it's just a handy way for users to define an
+    alternate, shorter title when applicable. Set the value to `null` if you
+    wish to omit it while providing a limit.
+    - `limit` is optional; it defaults to 50 characters, but this can be changed
+    below.
+
+    ## Usage
+
+    {% from 'truncate' import truncate as truncate %}
+
+    <h1>
+      {{ truncate(entry.title, entry.shortTitle, 100) }}
+    </h1>
+#}
+
+{% macro truncate(text, shortText, limit) %}
+  {% set limit = limit|default(50) %}
+  {% set separator = text|length > limit ? '…' : '' %}
+
+  {{ shortText ? shortText : text[:limit] ~ separator }}
+{% endmacro %}

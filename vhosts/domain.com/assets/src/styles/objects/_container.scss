@@ -1,0 +1,16 @@
+.container {
+  @include container;
+  position: relative;
+  z-index: 1;
+
+  &.--padded {
+    @include breakpoint('max-width' em(1200px)) {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+  }
+
+  &.-full {
+    max-width: none;
+  }
+}
